@@ -633,7 +633,7 @@ where
 		Ok(())
 	}
 
-	fn delete_tx_log_entry(
+	fn save_tx_log_entry (
 		&mut self,
 		tx_in: TxLogEntry,
 		parent_id: &Identifier,
@@ -651,7 +651,7 @@ where
 		Ok(())
 	}
 
-	fn save_tx_log_entry(
+	fn delete_tx_log_entry(
 		&mut self,
 		tx_in: TxLogEntry,
 		parent_id: &Identifier,
