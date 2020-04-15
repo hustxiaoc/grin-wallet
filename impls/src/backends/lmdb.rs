@@ -633,7 +633,7 @@ where
 		Ok(())
 	}
 
-	fn save_tx_log_entry(
+	fn delete_tx_log_entry(
 		&mut self,
 		tx_in: TxLogEntry,
 		parent_id: &Identifier,
@@ -648,6 +648,24 @@ where
 			.as_ref()
 			.unwrap()
 			.put_ser(&tx_log_key, &tx_in)?;
+		Ok(())
+	}
+
+	fn save_tx_log_entry(
+		&mut self,
+		tx_in: TxLogEntry,
+		parent_id: &Identifier,
+	) -> Result<(), Error> {
+		let tx_log_key = to_key_u64(
+			TX_LOG_ENTRY_PREFIX,
+			&mut parent_id.to_bytes().to_vec(),
+			tx_in.id as u64,
+		);
+		self.db
+			.borrow()
+			.as_ref()
+			.unwrap()
+			.delete(&tx_log_key)?;
 		Ok(())
 	}
 

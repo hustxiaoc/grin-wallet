@@ -1065,6 +1065,45 @@ pub trait OwnerRpcS {
 		tx_slate_id: Option<Uuid>,
 	) -> Result<(), ErrorKind>;
 
+
+	/**
+	Networked version of [Owner::delete_tx](struct.Owner.html#method.delete_tx).
+
+
+	```
+	# grin_wallet_api::doctest_helper_json_rpc_owner_assert_response!(
+	# r#"
+	{
+		"jsonrpc": "2.0",
+		"method": "delete_tx",
+		"params": {
+			"token": "d202964900000000d302964900000000d402964900000000d502964900000000",
+			"tx_id": null,
+			"tx_slate_id": "0436430c-2b02-624c-2032-570501212b00"
+		},
+		"id": 1
+	}
+	# "#
+	# ,
+	# r#"
+	{
+		"id": 1,
+		"jsonrpc": "2.0",
+		"result": {
+			"Ok": null
+		}
+	}
+	# "#
+	# , true, 5, true, true, false, false);
+	```
+	 */
+	fn delete_tx(
+		&self,
+		token: Token,
+		tx_id: Option<u32>,
+		tx_slate_id: Option<Uuid>,
+	) -> Result<(), ErrorKind>;
+
 	/**
 	Networked version of [Owner::get_stored_tx](struct.Owner.html#method.get_stored_tx).
 
@@ -2121,6 +2160,16 @@ where
 		tx_slate_id: Option<Uuid>,
 	) -> Result<(), ErrorKind> {
 		Owner::cancel_tx(self, (&token.keychain_mask).as_ref(), tx_id, tx_slate_id)
+			.map_err(|e| e.kind())
+	}
+
+	fn delete_tx(
+		&self,
+		token: Token,
+		tx_id: Option<u32>,
+		tx_slate_id: Option<Uuid>,
+	) -> Result<(), ErrorKind> {
+		Owner::delete_tx(self, (&token.keychain_mask).as_ref(), tx_id, tx_slate_id)
 			.map_err(|e| e.kind())
 	}
 

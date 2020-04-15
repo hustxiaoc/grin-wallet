@@ -234,6 +234,24 @@ where
 	Ok(())
 }
 
+pub fn delete_tx<'a, T: ?Sized, C, K>(
+	wallet: &mut T,
+	keychain_mask: Option<&SecretKey>,
+	tx: TxLogEntry,
+	outputs: Vec<OutputData>,
+	parent_key_id: &Identifier,
+) -> Result<(), Error>
+where
+	T: WalletBackend<'a, C, K>,
+	C: NodeClient + 'a,
+	K: Keychain + 'a,
+{
+	let mut batch = wallet.batch(keychain_mask)?;
+	batch.delete_tx_log_entry(tx, parent_key_id)?;
+	batch.commit()?;
+	Ok(())
+}
+
 /// Apply refreshed API output data to the wallet
 pub fn apply_api_outputs<'a, T: ?Sized, C, K>(
 	wallet: &mut T,
