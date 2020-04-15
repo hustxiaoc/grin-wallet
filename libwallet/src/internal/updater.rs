@@ -238,7 +238,6 @@ pub fn delete_tx<'a, T: ?Sized, C, K>(
 	wallet: &mut T,
 	keychain_mask: Option<&SecretKey>,
 	tx: TxLogEntry,
-	outputs: Vec<OutputData>,
 	parent_key_id: &Identifier,
 ) -> Result<(), Error>
 where

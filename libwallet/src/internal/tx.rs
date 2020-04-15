@@ -344,17 +344,7 @@ where
 	}
 	let tx = tx_vec[0].clone();
 
-
-	// get outputs associated with tx
-	let res = updater::retrieve_outputs(
-		wallet,
-		keychain_mask,
-		false,
-		Some(tx.id),
-		Some(&parent_key_id),
-	)?;
-	let outputs = res.iter().map(|m| m.output.clone()).collect();
-	updater::delete_tx(wallet, keychain_mask, tx, outputs, parent_key_id)?;
+	updater::delete_tx(wallet, keychain_mask, tx, parent_key_id)?;
 	Ok(())
 }
 
