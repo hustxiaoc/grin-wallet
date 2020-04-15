@@ -623,17 +623,6 @@ where
 	C: NodeClient + 'a,
 	K: Keychain + 'a,
 {
-	if !update_wallet_state(
-		wallet_inst.clone(),
-		keychain_mask,
-		status_send_channel,
-		false,
-	)? {
-		return Err(ErrorKind::TransactionCancellationError(
-			"Can't contact running Grin node. Not Cancelling.",
-		)
-		.into());
-	}
 	wallet_lock!(wallet_inst, w);
 	let parent_key_id = w.parent_key_id();
 	tx::delete_tx(&mut **w, keychain_mask, &parent_key_id, tx_id, tx_slate_id)
