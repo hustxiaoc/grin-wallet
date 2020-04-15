@@ -343,12 +343,8 @@ where
 		return Err(ErrorKind::TransactionDoesntExist(tx_id_string).into());
 	}
 	let tx = tx_vec[0].clone();
-	if tx.tx_type != TxLogEntryType::TxSent && tx.tx_type != TxLogEntryType::TxReceived {
-		return Err(ErrorKind::TransactionNotCancellable(tx_id_string).into());
-	}
-	if tx.confirmed {
-		return Err(ErrorKind::TransactionNotCancellable(tx_id_string).into());
-	}
+
+
 	// get outputs associated with tx
 	let res = updater::retrieve_outputs(
 		wallet,
